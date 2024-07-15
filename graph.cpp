@@ -2,73 +2,143 @@
 
 extern Class_arrange_Graph G;
 
-void Class_arrange_Graph::read(vector<course> cslist, op oper)
+int Class_arrange_Graph::trans(QString d)
 {
-	G.Vex = new VexNode[cslist.size()];
-	G.VexNum = cslist.size();
-	for (int i = 0; i < cslist.size(); i++)
-	{
-		G.Vex[i].class_num = cslist[i].class_num;
-		G.Vex[i].num = cslist[i].course_id;
-		G.Vex[i].data = cslist[i].course_name;
-		G.Vex[i].credit = cslist[i].course_credit;
-		/*AdjVexNode* p=G.Vex[i].FirstArc;*/
-		string s = cslist[i].after_course;
-		string d = "";
-		for (int j = 0; j < s.length(); j++)
-		{
-			if ((s[j] >= '0' && s[j] <= '9') || s[j] == '-')
-			{
-				d += s[j];
-			}
-			if ((s[j] < '0' || s[j] > '9' || j == s.length() - 1) && s[j] != '-')
-			{
-				int k = oper.trans(d);
-				if (k == -1) break;
-				G.Vex[k].In_degree++;
+    string ds=d.toStdString();
+    int sum = 0;
+    int sig = 1;
+    for (int i = 0; i < ds.length(); i++)
+    {
+        if (ds[i] == '-') sig = -1;
+        else sum = sum * 10 + ds[i] - '0';
+    }
+    return sum * sig;
+}
 
-				//初始化FirstArc
-				AdjVexNode* node = new AdjVexNode;
-				node->AdjVex = k;
-				node->Next = NULL;
-				if (G.Vex[i].FirstArc == NULL)
-				{
-					G.Vex[i].FirstArc = node;
-				}
-				else if (G.Vex[i].FirstArc->Next == NULL)
-				{
-					G.Vex[i].FirstArc->Next = node;
-				}
-				else
-				{
-					AdjVexNode* p = G.Vex[i].FirstArc->Next;
-					while (p->Next != NULL) p = p->Next;
-					p->Next = node;
-				}
+void Class_arrange_Graph::read(vector<course> cslist)
+{
+    G.Vex = new VexNode[cslist.size()];
+    G.VexNum = cslist.size();
+    for (int i = 0; i < cslist.size(); i++)
+    {
+        G.Vex[i].class_num = cslist[i].class_num;
+        G.Vex[i].num = cslist[i].course_id;
+        G.Vex[i].data = cslist[i].course_name;
+        G.Vex[i].credit = cslist[i].course_credit;
+        /*AdjVexNode* p=G.Vex[i].FirstArc;*/
+        QString s = cslist[i].after_course;
+        QString d = "";
+        for (int j = 0; j < s.length(); j++)
+        {
+            if ((s[j] >= '0' && s[j] <= '9') || s[j] == '-')
+            {
+                d += s[j];
+            }
+            if ((s[j] < '0' || s[j] > '9' || j == s.length() - 1) && s[j] != '-')
+            {
+                int k = trans(d);
+                if (k == -1) break;
+                G.Vex[k].In_degree++;
 
-				//初始化FirstArc_pre
-				AdjVexNode* node_pre = new AdjVexNode;
-				node_pre->AdjVex = i;
-				node_pre->Next = NULL;
-				if (G.Vex[k].FirstArc_pre == NULL)
-				{
-					G.Vex[k].FirstArc_pre = node_pre;
-				}
-				else if (G.Vex[k].FirstArc_pre->Next == NULL)
-				{
-					G.Vex[k].FirstArc_pre->Next = node_pre;
-				}
-				else
-				{
-					AdjVexNode* p = G.Vex[i].FirstArc_pre->Next;
-					while (p->Next != NULL) p = p->Next;
-					p->Next = node_pre;
-				}
+                //鍒濆鍖朏irstArc
+                AdjVexNode* node = new AdjVexNode;
+                node->AdjVex = k;
+                node->Next = NULL;
+                if (G.Vex[i].FirstArc == NULL)
+                {
+                    G.Vex[i].FirstArc = node;
+                }
+                else if (G.Vex[i].FirstArc->Next == NULL)
+                {
+                    G.Vex[i].FirstArc->Next = node;
+                }
+                else
+                {
+                    AdjVexNode* p = G.Vex[i].FirstArc->Next;
+                    while (p->Next != NULL) p = p->Next;
+                    p->Next = node;
+                }
+
+                //鍒濆鍖朏irstArc_pre
+                AdjVexNode* node_pre = new AdjVexNode;
+                node_pre->AdjVex = i;
+                node_pre->Next = NULL;
+                if (G.Vex[k].FirstArc_pre == NULL)
+                {
+                    G.Vex[k].FirstArc_pre = node_pre;
+                }
+                else if (G.Vex[k].FirstArc_pre->Next == NULL)
+                {
+                    G.Vex[k].FirstArc_pre->Next = node_pre;
+                }
+                else
+                {
+                    AdjVexNode* p = G.Vex[i].FirstArc_pre->Next;
+                    while (p->Next != NULL) p = p->Next;
+                    p->Next = node_pre;
+                }
 
 
-				G.ArcNum++;
-				d = "";
-			}
-		}
-	}
+                G.ArcNum++;
+                d = "";
+            }
+        }
+    }
+}
+
+VexNode::VexNode(int n, QString d, int c, int cn)
+{
+    num = n;
+    data = d;
+    credit = c;
+    FirstArc = NULL;
+    FirstArc_pre = NULL;
+    In_degree = 0;
+    class_num = cn;
+}
+
+VexNode::VexNode()
+{
+    In_degree = 0;
+    FirstArc = NULL;
+    FirstArc_pre = NULL;
+}
+
+VexNode& VexNode::operator=(VexNode v)
+{
+    this->num = v.num;
+    this->credit = v.credit;
+    this->data = v.data;
+    this->FirstArc = v.FirstArc;
+    this->FirstArc_pre = v.FirstArc_pre;
+    this->In_degree = v.In_degree;
+    this->class_num = v.class_num;
+    return *this;
+}
+
+Message::Message()
+{
+    term_num = 8;
+    max_credit = 40;
+}
+
+AdjVexNode::AdjVexNode()
+{
+    Next = NULL;
+}
+
+Class_arrange_Graph::Class_arrange_Graph()
+{
+    VexNum = 0;
+    ArcNum = 0;
+}
+
+Class_arrange_Graph& Class_arrange_Graph::operator=(Class_arrange_Graph g)
+{
+    this->ArcNum = g.ArcNum;
+    this->mes = g.mes;
+    this->VexNum = g.VexNum;
+    this->Vex = new VexNode[VexNum];
+    for (int i = 0; i < VexNum; i++) this->Vex[i] = g.Vex[i];
+    return *this;
 }

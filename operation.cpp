@@ -7,391 +7,333 @@ extern VexNode result3[100];
 extern VexNode result4[100];
 extern Class_arrange_Graph G;
 
+//extern int ID;
 
-void op::Top_Sort(VexNode* result, int choice, course_manager* m)//½øĞĞËÄ´Î²»Í¬µÄÍØÆËÅÅĞò
+
+void op::Top_Sort(VexNode* result, int choice, course_manager* m)//è¿›è¡Œå››æ¬¡ä¸åŒçš„æ‹“æ‰‘æ’åº
 {
-	Class_arrange_Graph* g = new Class_arrange_Graph;
-	*g = G;
-	int tag = 0, i;
-	AdjVexNode* p;
-	queue<VexNode> S;
-	stack <AdjVexNode*> S1;
+    Class_arrange_Graph* g = new Class_arrange_Graph;
+    *g = G;
+    int tag = 0, i;
+    AdjVexNode* p;
+    queue<VexNode> S;
+    stack <AdjVexNode*> S1;
 
-	if (choice == 0)
+    if (choice == 0)
 
-		while (tag == 0)
-		{
-			tag = 1;
-			for (i = g->VexNum - 1; i >= 0; i--)
-				if (g->Vex[i].In_degree == 0)
-				{
-					S.push(g->Vex[i]);
-					g->Vex[i].In_degree--;
-					p = g->Vex[i].FirstArc;
-					S1.push(p);
-					tag = 0;
-				}
+    while (tag == 0)
+    {
+        tag = 1;
+        for (i = g->VexNum - 1; i >= 0; i--)
+            if (g->Vex[i].In_degree == 0)
+            {
+                S.push(g->Vex[i]);
+                g->Vex[i].In_degree--;
+                p = g->Vex[i].FirstArc;
+                S1.push(p);
+                tag = 0;
+            }
 
-			while (S1.empty() == false)
-			{
-				p = S1.top();
-				S1.pop();
+        while (S1.empty() == false)
+        {
+            p = S1.top();
+            S1.pop();
 
-				while (p != nullptr)
-				{
-					g->Vex[p->AdjVex].In_degree--;
-					p = p->Next;
-				}
-			}
-		}
-
-
-
-	else if (choice == 1)
-
-		while (tag == 0)
-		{
-			tag = 1;
-			for (i = 0; i < g->VexNum; i++)
-				if (g->Vex[i].In_degree == 0)
-				{
-					S.push(g->Vex[i]);
-					g->Vex[i].In_degree--;
-					p = g->Vex[i].FirstArc;
-					S1.push(p);
-					tag = 0;
-				}
-
-			while (S1.empty() == false)
-			{
-				p = S1.top();
-				S1.pop();
-
-				while (p != nullptr)
-				{
-					g->Vex[p->AdjVex].In_degree--;
-					p = p->Next;
-				}
-			}
-		}
+            while (p != nullptr)
+            {
+                g->Vex[p->AdjVex].In_degree--;
+                p = p->Next;
+            }
+        }
+    }
 
 
 
-	else if (choice == 2)
+    else if (choice == 1)
 
-		for (i = g->VexNum - 1; i >= 0; i--)
-		{
-			if (g->Vex[i].In_degree == 0)
-			{
-				S.push(g->Vex[i]);
-				g->Vex[i].In_degree--;
-				p = g->Vex[i].FirstArc;
-				while (p != nullptr)
-				{
-					g->Vex[p->AdjVex].In_degree--;
-					p = p->Next;
-				}
+    while (tag == 0)
+    {
+        tag = 1;
+        for (i = 0; i < g->VexNum; i++)
+            if (g->Vex[i].In_degree == 0)
+            {
+                S.push(g->Vex[i]);
+                g->Vex[i].In_degree--;
+                p = g->Vex[i].FirstArc;
+                S1.push(p);
+                tag = 0;
+            }
 
-				i = g->VexNum ;//´Ë´¦ÓĞ¸Ä¶¯
-				/*i = g->VexNum - 1;*/
-			}
-		}
+        while (S1.empty() == false)
+        {
+            p = S1.top();
+            S1.pop();
 
-
-
-	else
-
-		for (i = 0; i < g->VexNum; i++)
-		{
-			if (g->Vex[i].In_degree == 0)
-			{
-				S.push(g->Vex[i]);
-				g->Vex[i].In_degree--;
-				p = g->Vex[i].FirstArc;
-				while (p != nullptr)
-				{
-					g->Vex[p->AdjVex].In_degree--;
-					p = p->Next;
-				}
-
-				i = -1;
-			}
-		}
+            while (p != nullptr)
+            {
+                g->Vex[p->AdjVex].In_degree--;
+                p = p->Next;
+            }
+        }
+    }
 
 
 
+    else if (choice == 2)
 
-	i = S.size();
+    for (i = g->VexNum - 1; i >= 0; i--)
+    {
+        if (g->Vex[i].In_degree == 0)
+        {
+            S.push(g->Vex[i]);
+            g->Vex[i].In_degree--;
+            p = g->Vex[i].FirstArc;
+            while (p != nullptr)
+            {
+                g->Vex[p->AdjVex].In_degree--;
+                p = p->Next;
+            }
 
-	if (i < g->VexNum)
-	{
-		cout << "ÍØÆËÅÅĞòÊ§°Ü£¬¿Î³ÌÏÈĞŞ¹ØÏµ¿ÉÄÜ´æÔÚ»·Â·£¬Çë°´ÈÎÒâ¼ü»ØÖ÷²Ëµ¥\n";
-		getchar();
-		system("cls");
-		/*mainmenu();*/
-	}
+            i = g->VexNum ;//æ­¤å¤„æœ‰æ”¹åŠ¨
+            /*i = g->VexNum - 1;*/
+        }
+    }
 
-	for (i = 0; i < g->VexNum; i++)
-	{
-		if (S.empty() == false)
-		{
-			result[i] = S.front();
-			S.pop();
-		}
-		else
-		{
-			cout << "ÍØÆËÅÅĞòµ¯Õ»Ê§°Ü,Çë°´ÈÎÒâ¼ü»ØÖ÷²Ëµ¥" << endl;
-			getchar();
-			/*mainmenu();*/
-		}
 
-	}
+
+    else
+
+    for (i = 0; i < g->VexNum; i++)
+    {
+        if (g->Vex[i].In_degree == 0)
+        {
+            S.push(g->Vex[i]);
+            g->Vex[i].In_degree--;
+            p = g->Vex[i].FirstArc;
+            while (p != nullptr)
+            {
+                g->Vex[p->AdjVex].In_degree--;
+                p = p->Next;
+            }
+
+            i = -1;
+        }
+    }
+
+
+
+
+    i = S.size();
+
+    if (i < g->VexNum)
+    {
+        cout << "æ‹“æ‰‘æ’åºå¤±è´¥ï¼Œè¯¾ç¨‹å…ˆä¿®å…³ç³»å¯èƒ½å­˜åœ¨ç¯è·¯ï¼Œè¯·æŒ‰ä»»æ„é”®å›ä¸»èœå•\n";
+        getchar();
+        system("cls");
+        /*mainmenu();*/
+    }
+
+    for (i = 0; i < g->VexNum; i++)
+    {
+        if (S.empty() == false)
+        {
+            result[i] = S.front();
+            S.pop();
+        }
+        else
+        {
+            cout << "æ‹“æ‰‘æ’åºå¼¹æ ˆå¤±è´¥,è¯·æŒ‰ä»»æ„é”®å›ä¸»èœå•" << endl;
+            getchar();
+            /*mainmenu();*/
+        }
+
+    }
 }
 
-void op::Arrange(VexNode* result, int choice, course_manager*m)//ÒªÔÚÂ¼Èë¿Î³Ì¿ÎÍ·ĞÅÏ¢Ç°½«Ô­ĞÅÏ¢Çå¿Õ
+void op::Arrange(VexNode* result, int choice, course_manager*m)//è¦åœ¨å½•å…¥è¯¾ç¨‹è¯¾å¤´ä¿¡æ¯å‰å°†åŸä¿¡æ¯æ¸…ç©º
 {
-	int i = 0, j, k, course_num, per_max_num, Sumcredit, tag;
+    int i = 0, j, k, course_num, per_max_num, Sumcredit, tag;
 
-	if (choice == 0)
-		per_max_num = G.VexNum;
-	else
-	{
-		//Ê¹¿Î³Ì¾ùÔÈ·Ö²¼£¬¿ÉÒÔÕû³ıºÍÓàÊıĞ¡ÓÚÑ§ÆÚÊıµÄÒ»°ëµÄÇé¿ö
-		if (G.VexNum % G.mes->term_num == 0 || G.VexNum % G.mes->term_num < G.mes->term_num / 2)
-			per_max_num = G.VexNum / G.mes->term_num;
-		else
-			per_max_num = (G.VexNum / G.mes->term_num + 1);
-	}
+    if (choice == 0)
+        per_max_num = G.VexNum;
+    else
+    {
+        //ä½¿è¯¾ç¨‹å‡åŒ€åˆ†å¸ƒï¼Œå¯ä»¥æ•´é™¤å’Œä½™æ•°å°äºå­¦æœŸæ•°çš„ä¸€åŠçš„æƒ…å†µ
+        if (G.VexNum % G.mes->term_num == 0 || G.VexNum % G.mes->term_num < G.mes->term_num / 2)
+            per_max_num = G.VexNum / G.mes->term_num;
+        else
+            per_max_num = (G.VexNum / G.mes->term_num + 1);
+    }
 
-	VexNode* this_term_courses = new VexNode[G.VexNum];
-	AdjVexNode* p;
-	for (k = 0; k < G.VexNum; k++)
-	{
-		if (i == G.VexNum)	break;//Ê¹k¼ÇÂ¼×î´óÑ§ÆÚÊı
+    VexNode* this_term_courses = new VexNode[G.VexNum];
+    AdjVexNode* p;
+    for (k = 0; k < G.VexNum; k++)
+    {
+        if (i == G.VexNum)	break;//ä½¿kè®°å½•æœ€å¤§å­¦æœŸæ•°
 
-		/*cout << "µÚ" << k + 1 << "¸öÑ§ÆÚµÄ¿Î³ÌÎª£º";*/
+        /*cout << "ç¬¬" << k + 1 << "ä¸ªå­¦æœŸçš„è¯¾ç¨‹ä¸ºï¼š";*/
 
-		Sumcredit = 0;       //±¾Ñ§ÆÚ°²ÅÅ¿Î³ÌµÄ×ÜÑ§·Ö
-		course_num = 0;	 //±¾Ñ§ÆÚ°²ÅÅ¿Î³ÌµÄ×ÜÊı
-		p = result[i].FirstArc_pre;  //ÏÈĞŞ¿ÎÖ¸Õë
-		tag = 0;          //±êÖ¾±¾Ñ§ÆÚÊÇ·ñÓĞ¸Ã¿Î³ÌµÄÏÈĞŞ¿Î³Ì
-		while (Sumcredit + result[i].credit <= G.mes->max_credit && tag == 0 && course_num < per_max_num)
-		{
-			while (p != nullptr && tag == 0)
-			{
-				for (j = 0; j < course_num; j++)
-				{
-					if (p->AdjVex == this_term_courses[j].num)
-					{
-						tag = 1;
-						break;
-					}
-				}
-				p = p->Next;
-			}
+        Sumcredit = 0;       //æœ¬å­¦æœŸå®‰æ’è¯¾ç¨‹çš„æ€»å­¦åˆ†
+        course_num = 0;	 //æœ¬å­¦æœŸå®‰æ’è¯¾ç¨‹çš„æ€»æ•°
+        p = result[i].FirstArc_pre;  //å…ˆä¿®è¯¾æŒ‡é’ˆ
+        tag = 0;          //æ ‡å¿—æœ¬å­¦æœŸæ˜¯å¦æœ‰è¯¥è¯¾ç¨‹çš„å…ˆä¿®è¯¾ç¨‹
+        while (Sumcredit + result[i].credit <= G.mes->max_credit && tag == 0 && course_num < per_max_num)
+        {
+            while (p != nullptr && tag == 0)
+            {
+                for (j = 0; j < course_num; j++)
+                {
+                    if (p->AdjVex == this_term_courses[j].num)
+                    {
+                        tag = 1;
+                        break;
+                    }
+                }
+                p = p->Next;
+            }
 
-			if (tag == 1) break;//Èç¹û±¾Ñ§ÆÚÓĞ¸Ã¿Î³ÌµÄÏÈĞŞ¿Î³Ì£¬Ôò¸Ã¿Î³ÌÎŞ·¨ÔÚ±¾Ñ§ÆÚ¿ª¿Î
+            if (tag == 1) break;//å¦‚æœæœ¬å­¦æœŸæœ‰è¯¥è¯¾ç¨‹çš„å…ˆä¿®è¯¾ç¨‹ï¼Œåˆ™è¯¥è¯¾ç¨‹æ— æ³•åœ¨æœ¬å­¦æœŸå¼€è¯¾
 
-			if (i == G.VexNum)	break;
+            if (i == G.VexNum)	break;
 
-			cout << result[i].data << endl;
+            //cout << result[i].data << endl;
 
-			/*string key=pick(result, i,m);*/
-			const string s = " where student_id=3";
-			course cs;
-			char con[1024];
-			sprintf_s(con, " where course_id=%d", result[i].num);
-			m->get_a_course(cs, con);
-			student stu;
-			m->get_student(stu,s);
-			if (stu.course_class[k] == "n") stu.course_class[k] = "";
-			stu.course_class[k] = result[i].data + cs.choice +','+stu.course_class[k];
-			m->update_student(stu,k+1);
+            /*QString key=pick(result, i,m);*/
+            const QString s = " where student_id=3";
+            course cs;
+            char con[1024];
+            sprintf_s(con, " where course_id=%d", result[i].num);
+            m->get_a_course(cs, con);
+            cs.allowance[cs.choice.toInt()-1]--;
+            m->update_course(cs);
 
-			Sumcredit += result[i].credit;
-			this_term_courses[course_num] = result[i];
-			/*if (i == G.VexNum)	break;*/
-			i++;
-			course_num++;
-			p = result[i].FirstArc_pre;
-		}
+            student stu;
+            //char s[1024];
+            //sprintf_s(s," where student_id=%d",ID);
+            m->get_student(stu,s);
 
-	}
+            if (stu.course_class[k] == "n") stu.course_class[k] = "";
+            stu.course_class[k] = result[i].data + cs.choice +','+stu.course_class[k];
+            m->update_student(stu,k+1);
 
-	//if (k > G.mes->term_num)
-	//{
+            Sumcredit += result[i].credit;
+            this_term_courses[course_num] = result[i];
+            /*if (i == G.VexNum)	break;*/
+            i++;
+            course_num++;
+            p = result[i].FirstArc_pre;
+        }
 
-	//	cout << "\n\n\n¸Ã¿Î³Ì°²ÅÅÏÈºóË³ĞòÏÂ£¬´Ë²ßÂÔÎŞ½â,ÒòÎª°²ÅÅËùĞèÑ§ÆÚÊı³¬¹ı×î´óÑ§ÆÚÊı\n\n\n";
-	//	cout << "Çë°´ÈÎÒâ¼ü»ØÖ÷²Ëµ¥" << endl;
-	//	getchar();
-	//	system("cls");
-	//	/*mainmenu();*/
-	//}
+    }
 
-	cout << "\n\n\n ¿Î³Ì°²ÅÅĞÅÏ¢ÒÑ¾­´æÈëµ±Ç°Ä¿Â¼ÏÂ£¬¡°¸÷Ñ§ÆÚ¿Î³Ì°²ÅÅ½á¹û.txt¡± \n\nÇë°´ÈÎÒâ¼ü»ØÖ÷²Ëµ¥";
-	getchar();
-	system("pause");
-	/*mainmenu();*/
+    //if (k > G.mes->term_num)
+    //{
+
+    //	cout << "\n\n\nè¯¥è¯¾ç¨‹å®‰æ’å…ˆåé¡ºåºä¸‹ï¼Œæ­¤ç­–ç•¥æ— è§£,å› ä¸ºå®‰æ’æ‰€éœ€å­¦æœŸæ•°è¶…è¿‡æœ€å¤§å­¦æœŸæ•°\n\n\n";
+    //	cout << "è¯·æŒ‰ä»»æ„é”®å›ä¸»èœå•" << endl;
+    //	getchar();
+    //	system("cls");
+    //	/*mainmenu();*/
+    //}
+
+    //cout << "\n\n\n è¯¾ç¨‹å®‰æ’ä¿¡æ¯å·²ç»å­˜å…¥å½“å‰ç›®å½•ä¸‹ï¼Œâ€œå„å­¦æœŸè¯¾ç¨‹å®‰æ’ç»“æœ.txtâ€ \n\nè¯·æŒ‰ä»»æ„é”®å›ä¸»èœå•";
+    //getchar();
+    //system("pause");
+    /*mainmenu();*/
 
 }
 
 void op::Print_Top_Sort_Result()
 {
-	cout << "¸÷¿Î³Ì°²ÅÅÏÈºóË³ĞòÎª:\n" << endl;
-	cout << "Ñ¡Ôñ1£º";
-	for (int i = 0; i < G.VexNum; i++)
-	{
-		cout << result1[i].data << "  ";
-	}
+    /*cout << "å„è¯¾ç¨‹å®‰æ’å…ˆåé¡ºåºä¸º:\n" << endl;
+    cout << "é€‰æ‹©1ï¼š";
+    for (int i = 0; i < G.VexNum; i++)
+    {
+        cout << result1[i].data << "  ";
+    }
 
-	cout << "\n\nÑ¡Ôñ2£º";
-	for (int i = 0; i < G.VexNum; i++)
-	{
-		cout << result2[i].data << "  ";
-	}
+    cout << "\n\né€‰æ‹©2ï¼š";
+    for (int i = 0; i < G.VexNum; i++)
+    {
+        cout << result2[i].data << "  ";
+    }
 
-	cout << "\n\nÑ¡Ôñ3£º";
-	for (int i = 0; i < G.VexNum; i++)
-	{
-		cout << result3[i].data << "  ";
-	}
+    cout << "\n\né€‰æ‹©3ï¼š";
+    for (int i = 0; i < G.VexNum; i++)
+    {
+        cout << result3[i].data << "  ";
+    }
 
-	cout << "\n\nÑ¡Ôñ4£º";
-	for (int i = 0; i < G.VexNum; i++)
-	{
-		cout << result4[i].data << "  ";
-	}
+    cout << "\n\né€‰æ‹©4ï¼š";
+    for (int i = 0; i < G.VexNum; i++)
+    {
+        cout << result4[i].data << "  ";
+    }*/
 
 }
 
 void op::Arrange_Selete(int choice, course_manager*m)
 {
-	Top_Sort(result1, 0,m);
-	Top_Sort(result2, 1,m);
-	Top_Sort(result3, 2,m);
-	Top_Sort(result4, 3,m);
-	Print_Top_Sort_Result();//Óë½çÃæÓĞ¹Ø
-	cout << "\n\n\nÇëÊäÈëÄãÑ¡ÔñµÄ¿Î³Ì°²ÅÅÏÈºóË³Ğò£º";
-	char key = getchar();
+    Top_Sort(result1, 0,m);
+    Top_Sort(result2, 1,m);
+    Top_Sort(result3, 2,m);
+    Top_Sort(result4, 3,m);
+    Print_Top_Sort_Result();//ä¸ç•Œé¢æœ‰å…³
+    cout << "\n\n\nè¯·è¾“å…¥ä½ é€‰æ‹©çš„è¯¾ç¨‹å®‰æ’å…ˆåé¡ºåºï¼š";
+    char key = getchar();
 
-	if (key == '1')
-		Arrange(result1, choice,m);
-	else if (key == '2')
-		Arrange(result2, choice,m);
-	else if (key == '3')
-		Arrange(result3, choice,m);
-	else if (key == '4')
-		Arrange(result4, choice,m);
+    if (key == '1')
+        Arrange(result1, choice,m);
+    else if (key == '2')
+        Arrange(result2, choice,m);
+    else if (key == '3')
+        Arrange(result3, choice,m);
+    else if (key == '4')
+        Arrange(result4, choice,m);
 
-	else
-	{
-		cout << "Ñ¡ÔñÓĞÎó£¬Çë°´ÈÎÒâ¼ü»ØÖ÷²Ëµ¥";
-		getchar();
-		/*mainmenu();*/
-	}
+    else
+    {
+        cout << "é€‰æ‹©æœ‰è¯¯ï¼Œè¯·æŒ‰ä»»æ„é”®å›ä¸»èœå•";
+        getchar();
+        /*mainmenu();*/
+    }
 
 }
 
-//string op::pick(VexNode*result,int i, course_manager* m)//Óë½çÃæÓĞ¹Ø
+//QString op::pick(VexNode*result,int i, course_manager* m)//ä¸ç•Œé¢æœ‰å…³
 //{
-//	cout << "¸Ã¿Î³ÌÓĞ" << result[i].class_num << "¸ö¿ÎÍ·" << endl;
-//	vector<string>v;
+//	cout << "è¯¥è¯¾ç¨‹æœ‰" << result[i].class_num << "ä¸ªè¯¾å¤´" << endl;
+//	vector<QString>v;
 //	print_course_class(result[i].num, m,v);
-//	cout << "ÇëÊäÈëÄúÒªÑ¡ÔñµÄ¿ÎÍ·£º";
-//	string key;
+//	cout << "è¯·è¾“å…¥æ‚¨è¦é€‰æ‹©çš„è¯¾å¤´ï¼š";
+//	QString key;
 //	cin >> key;
-//	cout << "ÒÑÎªÄúÑ¡Ôñ" << key << "¿ÎÍ·" << endl;
+//	cout << "å·²ä¸ºæ‚¨é€‰æ‹©" << key << "è¯¾å¤´" << endl;
 //
-//	//Ê¹¸Ã¿Î³ÌÓàÁ¿¼õÉÙ
+//	//ä½¿è¯¥è¯¾ç¨‹ä½™é‡å‡å°‘
 //	course cs;
-	//char con[1024];
-	//sprintf_s(con, " where course_id=%d", result[i].num);
-	//m->get_a_course(cs, con);
+//char con[1024];
+//sprintf_s(con, " where course_id=%d", result[i].num);
+//m->get_a_course(cs, con);
 //	cs.allowance[trans(key) - 1]--;
 //	m->update_course(cs);
 //	return key;
 //}
 
-void op::print_course_class(int id, course_manager* m, vector<string>& v)
+void op::print_course_class(int id, course_manager* m, vector<QString>& v)
 {
-	course cs;
-	char con[1024];
-	sprintf_s(con, " where course_id=%d", id);
+   /* course cs;
+    char con[1024];
+    sprintf_s(con, " where course_id=%d", id);
 
-	m->get_a_course(cs, con);
-	for (int i = 0; i < cs.class_num; i++)
-	{
-		cout << i + 1 << " " << cs.course_class[i] << endl;
-		v.push_back(cs.course_class[i]);
-	}
+    m->get_a_course(cs, con);
+    for (int i = 0; i < cs.class_num; i++)
+    {
+        cout << i + 1 << " " << cs.course_class[i] << endl;
+        v.push_back(cs.course_class[i]);
+    }*/
 }
 
 
-VexNode::VexNode(int n,string d,int c,int cn)
-{
-	num = n;
-	data = d;
-	credit = c;
-	FirstArc = NULL;
-	FirstArc_pre = NULL;
-	In_degree = 0;
-	class_num = cn;
-}
 
-VexNode::VexNode()
-{
-	In_degree = 0;
-	FirstArc = NULL;
-	FirstArc_pre = NULL;
-}
 
-VexNode& VexNode::operator=(VexNode v)
-{
-	this->num = v.num;
-	this->credit = v.credit;
-	this->data = v.data;
-	this->FirstArc = v.FirstArc;
-	this->FirstArc_pre = v.FirstArc_pre;
-	this->In_degree = v.In_degree; 
-	this->class_num = v.class_num;
-	return *this;
-}
-
-Message::Message()
-{
-	term_num = 8;
-	max_credit = 40;
-}
-
-AdjVexNode::AdjVexNode()
-{
-	Next = NULL;
-}
-
-Class_arrange_Graph::Class_arrange_Graph()
-{
-	VexNum = 0;
-	ArcNum = 0;
-}
-
-Class_arrange_Graph& Class_arrange_Graph::operator=(Class_arrange_Graph g)
-{
-	this->ArcNum = g.ArcNum;
-	this->mes = g.mes;
-	this->VexNum = g.VexNum;
-	this->Vex = new VexNode[VexNum];
-	for (int i = 0; i < VexNum; i++) this->Vex[i] = g.Vex[i];
-	return *this;
-}
-
-int op::trans(string d)
-{
-	int sum = 0;
-	int sig = 1;
-	for (int i = 0; i < d.length(); i++)
-	{
-		if (d[i] == '-') sig = -1;
-		else sum = sum * 10 + d[i] - '0';
-	}
-	return sum * sig;
-}

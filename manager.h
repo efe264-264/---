@@ -26,6 +26,14 @@ struct course
     //course();
 };
 
+struct top_result
+{
+    QString result1;
+    QString result2;
+    QString result3;
+    QString result4;
+};
+
 
 class course_manager
 {
@@ -36,10 +44,12 @@ public:
     bool insert_student(student& stu);
     bool update_course(course& cs);
     bool update_student(student& stu,int i);
+    bool update_top_result(top_result&tr);
     bool delete_course(int course_id);
     vector<course> get_course(QString condition = "");
     bool get_a_course(course& cs, QString condition = "");
     bool get_student(student& stu, QString condition = "");
+    bool get_top_result(top_result&tr);
 private:
     QSqlDatabase DB;
 };

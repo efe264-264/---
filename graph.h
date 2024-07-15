@@ -1,57 +1,62 @@
-#pragma once
+#ifndef GRAPH_H
+#define GRAPH_H
+
 #include<iostream>
 #include<fstream>
 #include<stdio.h>
-#include<string>
+#include<QString>
 #include<vector>
 #include<stack>
 #include<queue>
+#include<string>
 #include"manager.h"
-#include"operation.h"
 using namespace std;
 
-struct op;
 
-//ÁÚ½Ó±í½Úµã
+//é‚»æ¥è¡¨èŠ‚ç‚¹
 struct AdjVexNode
 {
-	int AdjVex;//ÁÚ½ÓµãÎ»Ğò£¬¼´¿Î³ÌËù¶ÔÓ¦µÄ±àºÅ
-	AdjVexNode* Next;//Ö¸ÏòÏÂÒ»¸öÁÚ½ÓµãµÄÖ¸Õë
-	AdjVexNode();
+    int AdjVex;//é‚»æ¥ç‚¹ä½åºï¼Œå³è¯¾ç¨‹æ‰€å¯¹åº”çš„ç¼–å·
+    AdjVexNode* Next;//æŒ‡å‘ä¸‹ä¸€ä¸ªé‚»æ¥ç‚¹çš„æŒ‡é’ˆ
+    AdjVexNode();
 };
 
-//¶¥µã±í½Úµã
+//é¡¶ç‚¹è¡¨èŠ‚ç‚¹
 struct VexNode
 {
-	int num;//¿Î³Ì±àºÅ
-	string data;			//¿Î³ÌÃû³Æ
-	int credit;			//½ÚµãÑ§·Ö£¨Ã¿ÃÅ¿ÎÑ§·Ö£©
-	AdjVexNode* FirstArc;		//ºóĞŞ¿Î³Ì
-	AdjVexNode* FirstArc_pre;//ÏÈĞŞ¿Î³Ì
-	int In_degree;			//¿Î³ÌÈë¶È
-	int class_num;
-	VexNode(int n,string d, int c,int cn);
-	VexNode();
-	VexNode& operator=(VexNode v);
+    int num;//è¯¾ç¨‹ç¼–å·
+    QString data;			//è¯¾ç¨‹åç§°
+    int credit;			//èŠ‚ç‚¹å­¦åˆ†ï¼ˆæ¯é—¨è¯¾å­¦åˆ†ï¼‰
+    AdjVexNode* FirstArc;		//åä¿®è¯¾ç¨‹
+    AdjVexNode* FirstArc_pre;//å…ˆä¿®è¯¾ç¨‹
+    int In_degree;			//è¯¾ç¨‹å…¥åº¦
+    int class_num;
+    VexNode(int n,QString d, int c,int cn);
+    VexNode();
+    VexNode& operator=(VexNode v);
 };
 
-//Ñ§ÆÚĞÅÏ¢
+//å­¦æœŸä¿¡æ¯
 struct Message
 {
-	int term_num;			//Ñ§ÆÚÊı
-	int max_credit;			//Ã¿Ñ§ÆÚÑ§·ÖÉÏÏŞ
-	Message();
+    int term_num;			//å­¦æœŸæ•°
+    int max_credit;			//æ¯å­¦æœŸå­¦åˆ†ä¸Šé™
+    Message();
 };
 
-//Í¼
+//å›¾
+//æŠŠtransåŠ è¿›æ¥
 struct Class_arrange_Graph
 {
-	VexNode* Vex;			//¶¥µã±í
-	int VexNum;			//½ÚµãÊı
-	int ArcNum;			//±ßÊı
-	Message* mes;			//Ã¿Ñ§ÆÚµÄĞÅÏ¢(ÔÊĞíĞŞ¸Ä)
-	Class_arrange_Graph();
-	Class_arrange_Graph& operator=(Class_arrange_Graph g);
-	void read(vector<course> cslist, op oper);
+    VexNode* Vex;			//é¡¶ç‚¹è¡¨
+    int VexNum;			//èŠ‚ç‚¹æ•°
+    int ArcNum;			//è¾¹æ•°
+    Message* mes;			//æ¯å­¦æœŸçš„ä¿¡æ¯(å…è®¸ä¿®æ”¹)
+    Class_arrange_Graph();
+    Class_arrange_Graph& operator=(Class_arrange_Graph g);
+    void read(vector<course> cslist);
+    int trans(QString d);
+
 };
 
+#endif // GRAPH_H

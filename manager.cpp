@@ -133,6 +133,17 @@ bool course_manager::update_student(student& stu,int i)
     return ok;
 }
 
+bool course_manager::update_top_result(top_result&tr)
+{
+    QSqlQuery query;
+    bool ok;
+    ok = query.exec(QString("UPDATE topresult SET result1='%1',result2='%2',result3='%3',result4='%4' WHERE num=1")
+                        .arg(tr.result1).arg(tr.result2).arg(tr.result3).arg(tr.result4));
+    if (!ok)
+        qDebug() << "Update error:" << query.lastError().text();
+    return ok;
+}
+
 bool course_manager::get_student(student& stu, QString condition)
 {
     QSqlQuery query;
@@ -175,6 +186,7 @@ bool course_manager::get_student(student& stu, QString condition)
 vector<course> course_manager::get_course(QString condition)
 {
     vector<course>cslist;
+
     QSqlQuery query;
     if (query.exec("SELECT * FROM courses"+condition))
     {
@@ -230,6 +242,24 @@ bool course_manager::get_a_course(course& cs, QString condition)
             cs.choice = query.value(14).toString();
 
 
+    } else {
+        qDebug() << "Select error:" << query.lastError().text();
+        return false;
+    }
+
+    return true;
+}
+
+bool course_manager::get_top_result(top_result&tr)
+{
+    QSqlQuery query;
+    if (query.exec("SELECT * FROM topresult WHERE num=1"))
+    {
+        query.next();
+        tr.result1 = query.value(0).toString();
+        tr.result2 = query.value(1).toString();
+        tr.result3 = query.value(2).toString();
+        tr.result4 = query.value(3).toString();
     } else {
         qDebug() << "Select error:" << query.lastError().text();
         return false;
