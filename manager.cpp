@@ -83,49 +83,49 @@ bool course_manager::update_student(student& stu,int i)
         ok = query.exec(QString("UPDATE students SET course_class2='%1' WHERE student_id=%2")
                             .arg(stu.course_class[1]).arg(stu.student_id));
         //sprintf_s(sql, "update students set course_class2 = '%s'"
-          //             "where student_id = %d", stu.course_class[1].c_str(), stu.student_id);
+        //             "where student_id = %d", stu.course_class[1].c_str(), stu.student_id);
     }
     else if (i == 3)
     {
         ok = query.exec(QString("UPDATE students SET course_class3='%1' WHERE student_id=%2")
                             .arg(stu.course_class[2]).arg(stu.student_id));
         //sprintf_s(sql, "update students set course_class3 = '%s'"
-          //             "where student_id = %d", stu.course_class[2].c_str(), stu.student_id);
+        //             "where student_id = %d", stu.course_class[2].c_str(), stu.student_id);
     }
     else if (i == 4)
     {
         ok = query.exec(QString("UPDATE students SET course_class4='%1' WHERE student_id=%2")
                             .arg(stu.course_class[3]).arg(stu.student_id));
         //sprintf_s(sql, "update students set course_class4 = '%s'"
-          //             "where student_id = %d", stu.course_class[3].c_str(), stu.student_id);
+        //             "where student_id = %d", stu.course_class[3].c_str(), stu.student_id);
     }
     else if (i == 5)
     {
         ok = query.exec(QString("UPDATE students SET course_class5='%1' WHERE student_id=%2")
                             .arg(stu.course_class[4]).arg(stu.student_id));
         //sprintf_s(sql, "update students set course_class5 = '%s'"
-          //             "where student_id = %d", stu.course_class[4].c_str(), stu.student_id);
+        //             "where student_id = %d", stu.course_class[4].c_str(), stu.student_id);
     }
     else if (i == 6)
     {
         ok = query.exec(QString("UPDATE students SET course_class6='%1' WHERE student_id=%2")
                             .arg(stu.course_class[5]).arg(stu.student_id));
         //sprintf_s(sql, "update students set course_class6 = '%s'"
-          //             "where student_id = %d", stu.course_class[5].c_str(), stu.student_id);
+        //             "where student_id = %d", stu.course_class[5].c_str(), stu.student_id);
     }
     else if (i == 7)
     {
         ok = query.exec(QString("UPDATE students SET course_class7='%1' WHERE student_id=%2")
                             .arg(stu.course_class[6]).arg(stu.student_id));
         //sprintf_s(sql, "update students set course_class7 = '%s'"
-          //             "where student_id = %d", stu.course_class[6].c_str(), stu.student_id);
+        //             "where student_id = %d", stu.course_class[6].c_str(), stu.student_id);
     }
     else
     {
         ok = query.exec(QString("UPDATE students SET course_class8='%1' WHERE student_id=%2")
                             .arg(stu.course_class[7]).arg(stu.student_id));
         //sprintf_s(sql, "update students set course_class8 = '%s'"
-          //             "where student_id = %d", stu.course_class[7].c_str(), stu.student_id);
+        //             "where student_id = %d", stu.course_class[7].c_str(), stu.student_id);
     }
 
     if (!ok)
@@ -201,13 +201,13 @@ vector<course> course_manager::get_course(QString condition)
             cs.course_class[0] = query.value(5).toString();
             cs.course_class[1] = query.value(6).toString();
             cs.course_class[2] = query.value(7).toString();
-            cs.total[0] = query.value(8).toInt();
+            /*cs.total[0] = query.value(8).toInt();
             cs.total[1] = query.value(9).toInt();
             cs.total[2] = query.value(10).toInt();
             cs.allowance[0] = query.value(11).toInt();
             cs.allowance[1] = query.value(12).toInt();
-            cs.allowance[2] = query.value(13).toInt();
-            cs.choice = query.value(14).toString();
+            cs.allowance[2] = query.value(13).toInt();*/
+            cs.choice = query.value(8).toString();
             cslist.push_back(cs);
         }
 
@@ -224,22 +224,22 @@ bool course_manager::get_a_course(course& cs, QString condition)
     QSqlQuery query;
     if (query.exec("SELECT * FROM courses"+condition))
     {
-            query.next();
-            cs.course_id = query.value(0).toInt();
-            cs.course_name  = query.value(1).toString();
-            cs.course_credit = query.value(2).toInt();
-            cs.class_num = query.value(3).toInt();
-            cs.after_course = query.value(4).toString();
-            cs.course_class[0] = query.value(5).toString();
-            cs.course_class[1] = query.value(6).toString();
-            cs.course_class[2] = query.value(7).toString();
-            cs.total[0] = query.value(8).toInt();
-            cs.total[1] = query.value(9).toInt();
-            cs.total[2] = query.value(10).toInt();
-            cs.allowance[0] = query.value(11).toInt();
-            cs.allowance[1] = query.value(12).toInt();
-            cs.allowance[2] = query.value(13).toInt();
-            cs.choice = query.value(14).toString();
+        query.next();
+        cs.course_id = query.value(0).toInt();
+        cs.course_name  = query.value(1).toString();
+        cs.course_credit = query.value(2).toInt();
+        cs.class_num = query.value(3).toInt();
+        cs.after_course = query.value(4).toString();
+        cs.course_class[0] = query.value(5).toString();
+        cs.course_class[1] = query.value(6).toString();
+        cs.course_class[2] = query.value(7).toString();
+        /*cs.total[0] = query.value(8).toInt();
+        cs.total[1] = query.value(9).toInt();
+        cs.total[2] = query.value(10).toInt();
+        cs.allowance[0] = query.value(11).toInt();
+        cs.allowance[1] = query.value(12).toInt();
+        cs.allowance[2] = query.value(13).toInt();*/
+        cs.choice = query.value(8).toString();
 
 
     } else {

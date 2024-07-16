@@ -204,8 +204,8 @@ void op::Arrange(VexNode* result, int choice, course_manager*m)//要在录入课
             char con[1024];
             sprintf_s(con, " where course_id=%d", result[i].num);
             m->get_a_course(cs, con);
-            cs.allowance[cs.choice.toInt()-1]--;
-            m->update_course(cs);
+            //cs.allowance[cs.choice.toInt()-1]--;
+            //m->update_course(cs);
 
             student stu;
             //char s[1024];
@@ -322,7 +322,7 @@ void op::Arrange_Selete(int choice, course_manager*m)
 
 void op::print_course_class(int id, course_manager* m, vector<QString>& v)
 {
-   /* course cs;
+    /* course cs;
     char con[1024];
     sprintf_s(con, " where course_id=%d", id);
 
@@ -333,7 +333,4 @@ void op::print_course_class(int id, course_manager* m, vector<QString>& v)
         v.push_back(cs.course_class[i]);
     }*/
 }
-
-
-
 

@@ -1,4 +1,4 @@
-#include <QCoreApplication>
+/*#include <QCoreApplication>
 #include<QString>
 #include<QSql>
 #include<QSqlQuery>
@@ -67,7 +67,65 @@ int main()
             oper.Arrange(result4, choice, &m);
 
         /*oper.Arrange_Selete(0, &m);*/
-    }
+/*    }
 
     return 0;
+}*/
+
+#include "window01.h"
+#include "window02.h"
+#include "window03.h"
+#include <QApplication>
+#include"manager.h"
+#include"graph.h"
+#include"operation.h"
+
+//用来存四个拓扑排序的数据
+int choice_num;
+VexNode result1[100];
+VexNode result2[100];
+VexNode result3[100];
+VexNode result4[100];
+VexNode result[4][100];
+Class_arrange_Graph G;
+
+
+int main(int argc, char *argv[])
+{
+    //完成拓扑排序和拓扑排序结果放到数据库里的操作，第一个界面完成展示
+    Message msg;
+    G.mes = &msg;
+
+    op oper;
+    course_manager m;
+
+    //把数据库的course传到cslist中
+    vector<course>cslist=m.get_course("");
+    G.read(cslist);
+
+    //四个拓扑排序先存到四个全局变量数组中
+    oper.Top_Sort(result1,0,&m);
+    oper.Top_Sort(result2,1,&m);
+    oper.Top_Sort(result3,2,&m);
+    oper.Top_Sort(result4,3,&m);
+    for(int j=0;j<100;j++)
+    {
+        result[0][j]=result1[j];
+        result[1][j]=result2[j];
+        result[2][j]=result3[j];
+        result[3][j]=result4[j];
+    }
+    //构造完四个数组之后，把四个数组的数据传到topresult数据库里
+    QSqlQuery query;
+    for(int i=0;i<100;i++)
+    {
+        query.exec("insert into topresult('result1','result2','result3',result4') value('result1[i]','reault2[i]','result3[i]','result4[i]')");
+    }
+    //至此完成拓扑排序的四种情况的排序，以及将结果放到数据库中，
+    QApplication a(argc, argv);
+    Window01 w;
+    w.show();
+
+    return a.exec();
 }
+
