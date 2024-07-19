@@ -9,6 +9,7 @@ struct student
     int student_id;
     QString student_name;
     QString course_class[8];
+    QString term_class[8];
     student(int id, QString name);
     student();
     student& operator=(student stu);

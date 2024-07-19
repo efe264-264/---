@@ -1,4 +1,5 @@
 #include"graph.h"
+#include "qdebug.h"
 
 extern Class_arrange_Graph G;
 
@@ -22,7 +23,7 @@ void Class_arrange_Graph::read(vector<course> cslist)
     for (int i = 0; i < cslist.size(); i++)
     {
         G.Vex[i].class_num = cslist[i].class_num;
-        G.Vex[i].num = cslist[i].course_id;
+        G.Vex[i].num = cslist[i].course_id-1;
         G.Vex[i].data = cslist[i].course_name;
         G.Vex[i].credit = cslist[i].course_credit;
         /*AdjVexNode* p=G.Vex[i].FirstArc;*/
@@ -34,16 +35,17 @@ void Class_arrange_Graph::read(vector<course> cslist)
             {
                 d += s[j];
             }
-            if ((s[j] < '0' || s[j] > '9' || j == s.length() - 1) && s[j] != '-')
+            if ((s[j] < '0' || s[j] > '9' || (j == s.length() - 1)) && s[j] != '-')
             {
-                int k = trans(d);
-                if (k == -1) break;
+                int k = trans(d)-1;
+                if (k == -2) break;
                 G.Vex[k].In_degree++;
 
                 //初始化FirstArc
                 AdjVexNode* node = new AdjVexNode;
                 node->AdjVex = k;
                 node->Next = NULL;
+                qDebug()<<G.Vex[i].num;
                 if (G.Vex[i].FirstArc == NULL)
                 {
                     G.Vex[i].FirstArc = node;
@@ -60,22 +62,27 @@ void Class_arrange_Graph::read(vector<course> cslist)
                 }
 
                 //初始化FirstArc_pre
+                //G.Vex[k].data = cslist[k].course_name;
+                //G.Vex[k].num = cslist[k].course_id;
                 AdjVexNode* node_pre = new AdjVexNode;
                 node_pre->AdjVex = i;
                 node_pre->Next = NULL;
+                //qDebug()<<G.Vex[k].num;
                 if (G.Vex[k].FirstArc_pre == NULL)
                 {
                     G.Vex[k].FirstArc_pre = node_pre;
+                    G.Vex[k].FirstArc_pre->Next = NULL;
                 }
                 else if (G.Vex[k].FirstArc_pre->Next == NULL)
                 {
                     G.Vex[k].FirstArc_pre->Next = node_pre;
+                    //qDebug()<<G.Vex[k].num;
                 }
                 else
                 {
-                    AdjVexNode* p = G.Vex[i].FirstArc_pre->Next;
-                    while (p->Next != NULL) p = p->Next;
-                    p->Next = node_pre;
+                    AdjVexNode* t = G.Vex[k].FirstArc_pre;
+                    while (t->Next!= NULL) {t = t->Next;}
+                    t->Next = node_pre;
                 }
 
 

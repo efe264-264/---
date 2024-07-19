@@ -1,0 +1,11 @@
+release/graph.o
+release/main.o
+release/manager.o
+release/operation.o
+release/student.o
+release/window01.o
+release/window02.o
+release/window03.o
+release/moc_window01.o
+release/moc_window02.o
+release/moc_window03.o

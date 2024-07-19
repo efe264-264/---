@@ -3,32 +3,26 @@
 #include "ui_widget.h"
 #include <QSqlTableModel>
 
-Widget::Widget(QWidget *parent)
-    : QWidget(parent)
+Widget::Widget(QWidget *parent,QSqlDatabase *db,LogWindow * FLOGW)
+    : QWidget(parent),database(db),FLW(FLOGW)
     , ui(new Ui::Widget)   //初始化指针
 {
+
     ui->setupUi(this);
 
 
-    database = QSqlDatabase::addDatabase("QMYSQL");    //加载数据库驱动
-    database.setDatabaseName("lessonPlan");
-    database.setHostName("localhost");
-    database.setUserName("root");
-    database.setPassword("zhangshuohan@126050");
-
-
     //创建数据库连接
-    if(database.open()){
-        QMessageBox::information(this,"连接提示","连接成功");
+    if(database->open()){
+      //  QMessageBox::information(this,"连接提示","连接成功");
     }
     else{
         QMessageBox::warning(this,"连接提示","连接失败");
     }
 
+    //eg.
     //链接信号与槽；谁发出信号 发出什么信号  谁处理信号  怎么处理
-    connect(ui->IDlineEdit,SIGNAL(returnPressed()),this,SLOT(on_commitButton_clicked()));
+    //connect(ui->IDlineEdit,SIGNAL(returnPressed()),this,SLOT(on_commitButton_clicked()));
     //   this指widget这个类
-
     connect(ui->cancelButton,&QPushButton::clicked,this,&Widget::on_cancelButton_clicked);
 }
 
@@ -37,36 +31,52 @@ Widget::~Widget()
     delete ui;
 }
 
-void Widget::addCoursesToTable(QTableWidget *tableWidget, QSqlQuery &sqlQuery)
+
+
+void Widget::addCoursesToTable1(QTableWidget *tableWidget,  QString &courseName, QStringList &classNums)
 {
-    int row = 0; // 获取当前表格的行数，以便在末尾添加新行
+    // 创建一个SQL查询，根据课程名称从courses表中查找相关信息
+    QString queryPattern = "SELECT * FROM courses WHERE course_name = ?";
+    QSqlQuery sqlQuery(queryPattern);
+    sqlQuery.addBindValue(courseName);
 
-    while (sqlQuery.next()) {
-        // 从查询结果中提取课程信息
-        QString courseName = sqlQuery.value("course_name").toString();
-        int courseId = sqlQuery.value("course_id").toInt();
-        int courseCredit = sqlQuery.value("course_credit").toInt();
-        //QString courseNum = sqlQuery.value("course_num").toString();
+    if (sqlQuery.exec()) {
+        // 遍历查询结果，并显示课程信息
+        while (sqlQuery.next()) {
+            int courseId = sqlQuery.value("course_id").toInt();
+            int courseCredit = sqlQuery.value("course_credit").toInt();
 
-        // 将新行添加到表格中
-        tableWidget->insertRow(row);
+            // 将新行添加到表格中
+            tableWidget->insertRow(tableWidget->rowCount());    //添加新行到表格的末尾行
 
+            // 创建 QTableWidgetItem 实例并设置数据
+            QTableWidgetItem *idItem = new QTableWidgetItem(QString::number(courseId));
+            QTableWidgetItem *nameItem = new QTableWidgetItem(courseName);
+            QTableWidgetItem *creditItem = new QTableWidgetItem(QString::number(courseCredit));
+
+            // 将 QTableWidgetItem 实例添加到表格中
+            tableWidget->setItem(tableWidget->rowCount() - 1, 0, idItem);
+            tableWidget->setItem(tableWidget->rowCount() - 1, 1, nameItem);
+            tableWidget->setItem(tableWidget->rowCount() - 1, 2, creditItem);
+        }
+    } else {
+        qDebug() << "查询失败：" << sqlQuery.lastError();
+    }
+
+    // 处理课头编号
+    int row1 = 0;
+    for (const QString &classNum : classNums) {
         // 创建 QTableWidgetItem 实例并设置数据
-        QTableWidgetItem *idItem = new QTableWidgetItem(QString::number(courseId));
-        QTableWidgetItem *nameItem = new QTableWidgetItem(courseName);
-        QTableWidgetItem *creditItem = new QTableWidgetItem(QString::number(courseCredit));
-        //QTableWidgetItem *numItem = new QTableWidgetItem(courseNum);
+        QTableWidgetItem *classItem = new QTableWidgetItem(classNum);
 
         // 将 QTableWidgetItem 实例添加到表格中
-        tableWidget->setItem(row, 0, idItem);
-        tableWidget->setItem(row, 1, nameItem);
-        tableWidget->setItem(row, 2, creditItem);
-        //tableWidget->setItem(row, 3, numItem);
+        tableWidget->setItem(row1, 3, classItem);
 
         // 移动到下一行
-        row++;
+        row1++;
     }
 }
+
 
 //查询按钮转到槽
 void Widget::on_queryButton_clicked()
@@ -85,18 +95,19 @@ void Widget::on_queryButton_clicked()
     myProcess->start(student_ID);   //studentID是从文本框中获取的信息，即输入的查询学生的学号
 
     //执行查询
-    QSqlQuery query(database);
-    query.prepare("SELECT student_id, student_name,course_class1,course_class2, course_class3, course_class4, course_class5, course_class6, course_class7, course_class8 FROM students WHERE student_id = :studentID");
+    QSqlQuery query(*database);
+    query.prepare("SELECT student_id, student_name,course_class1,class_1,course_class2,class_2, course_class3,class_3, course_class4,class_4, course_class5,class_5, course_class6,class_6, course_class7,class_7, course_class8,class_8 FROM students WHERE student_id = :studentID");
     // 绑定学号参数
     query.bindValue(":studentID", student_ID);
     QueryResult *resultDialog = new QueryResult(student_ID,this);
     resultDialog->show(); // 以模式对话框方式显示
 
     if (query.exec()) {
-        while (query.next()) {
+        if(query.first()){
             QString studentID = query.value("student_id").toString();
             QString name = query.value("student_name").toString();
 
+            //课程名称字符串
             QString course_class1=query.value("course_class1").toString();
             QString course_class2=query.value("course_class2").toString();
             QString course_class3=query.value("course_class3").toString();
@@ -106,207 +117,92 @@ void Widget::on_queryButton_clicked()
             QString course_class7=query.value("course_class7").toString();
             QString course_class8=query.value("course_class8").toString();
 
-            //#######    term1
-            QStringList results1 = course_class1.split(','); // 使用逗号作为分隔符
-            // 准备查询语句
-            QString queryPattern1 = "SELECT * FROM courses WHERE course_name IN (%1)";
-            QStringList placeholders1;
-            for (int i = 0; i < results1.size(); ++i) {
-                placeholders1 << QString(":%1").arg(i);
+
+            //课程对应课头编号
+            QString class_1=query.value("class_1").toString();
+            QString class_2=query.value("class_2").toString();
+            QString class_3=query.value("class_3").toString();
+            QString class_4=query.value("class_4").toString();
+            QString class_5=query.value("class_5").toString();
+            QString class_6=query.value("class_6").toString();
+            QString class_7=query.value("class_7").toString();
+            QString class_8=query.value("class_8").toString();
+
+            //课程名称的StringList
+            QStringList classNum1=class_1.split(',');
+            QStringList classNum2=class_2.split(',');
+            QStringList classNum3=class_3.split(',');
+            QStringList classNum4=class_4.split(',');
+            QStringList classNum5=class_5.split(',');
+            QStringList classNum6=class_6.split(',');
+            QStringList classNum7=class_7.split(',');
+            QStringList classNum8=class_8.split(',');
+
+
+            //######## term1
+            QStringList results1 = course_class1.split(',');
+            for (int var = 0; var < results1.size(); ++var) {
+                addCoursesToTable1(resultDialog->course_class1, results1[var], classNum1);
             }
-            QString query1 = queryPattern1.arg(placeholders1.join(","));
-            // 创建查询和执行
-            QSqlQuery sqlQuery1;
-            if (sqlQuery1.prepare(query1)) {
-                for (int i = 0; i < results1.size(); ++i) {
-                    sqlQuery1.bindValue(QString(":%1").arg(i), results1[i]);
-                }
-                if (sqlQuery1.exec()) {
-                    addCoursesToTable(resultDialog->course_class1,sqlQuery1);
-                } else {
-                    qDebug() << "查询失败：" << sqlQuery1.lastError();
-                }
-            } else {
-                qDebug() << "准备查询失败：" << sqlQuery1.lastError();
+
+            //######## term2
+            QStringList results2 = course_class2.split(',');
+            for (int var = 0; var < results2.size(); ++var) {
+                addCoursesToTable1(resultDialog->course_class2, results2[var], classNum2);
+            }
+
+            //######## term3
+            QStringList results3 = course_class3.split(',');
+            /*  debug代码
+            qDebug() << "results3:";
+            for (const QString &item : results3) {
+                qDebug() << item;
+            }*/
+            for (int var = 0; var < results3.size(); ++var) {
+                addCoursesToTable1(resultDialog->course_class3, results3[var], classNum3);
+            }
+
+            //######## term4
+            QStringList results4 = course_class4.split(',');
+            for (int var = 0; var < results4.size(); ++var) {
+                addCoursesToTable1(resultDialog->course_class4, results4[var], classNum4);
+            }
+
+            //######## term5
+            QStringList results5 = course_class5.split(',');
+            for (int var = 0; var < results5.size(); ++var) {
+                addCoursesToTable1(resultDialog->course_class5, results5[var], classNum5);
+            }
+
+            //######## term6
+            QStringList results6 = course_class6.split(',');
+            for (int var = 0; var < results6.size(); ++var) {
+                addCoursesToTable1(resultDialog->course_class6, results6[var], classNum6);
+            }
+
+            //######## term3
+            QStringList results7 = course_class7.split(',');
+            for (int var = 0; var < results7.size(); ++var) {
+                addCoursesToTable1(resultDialog->course_class7, results7[var], classNum7);
+            }
+
+            //######## term8
+            QStringList results8 = course_class8.split(',');
+            for (int var = 0; var < results8.size(); ++var) {
+                addCoursesToTable1(resultDialog->course_class8, results8[var], classNum8);
             }
 
 
-            //#######    term2
-            QStringList results2 = course_class2.split(','); // 使用逗号作为分隔符
-            // 准备查询语句
-            QString queryPattern2 = "SELECT * FROM courses WHERE course_name IN (%1)";
-            QStringList placeholders2;
-            for (int i = 0; i < results2.size(); ++i) {
-                placeholders2 << QString(":%1").arg(i);
-            }
-            QString query2 = queryPattern2.arg(placeholders2.join(","));
-            // 创建查询和执行
-            QSqlQuery sqlQuery2;
-            if (sqlQuery2.prepare(query2)) {
-                for (int i = 0; i < results2.size(); ++i) {
-                    sqlQuery2.bindValue(QString(":%1").arg(i), results2[i]);
-                }
-                if (sqlQuery2.exec()) {
-                    addCoursesToTable(resultDialog->course_class2,sqlQuery2);
-                } else {
-                    qDebug() << "查询失败：" << sqlQuery2.lastError();
-                }
-            } else {
-                qDebug() << "准备查询失败：" << sqlQuery2.lastError();
-            }
 
-            //#######    term3
-            QStringList results3 = course_class3.split(','); // 使用逗号作为分隔符
-            // 准备查询语句
-            QString queryPattern3 = "SELECT * FROM courses WHERE course_name IN (%1)";
-            QStringList placeholders3;
-            for (int i = 0; i < results3.size(); ++i) {
-                placeholders3 << QString(":%1").arg(i);
-            }
-            QString query3 = queryPattern3.arg(placeholders3.join(","));
-            // 创建查询和执行
-            QSqlQuery sqlQuery3;
-            if (sqlQuery3.prepare(query3)) {
-                for (int i = 0; i < results3.size(); ++i) {
-                    sqlQuery3.bindValue(QString(":%1").arg(i), results3[i]);
-                }
-                if (sqlQuery3.exec()) {
-                    addCoursesToTable(resultDialog->course_class3,sqlQuery3);
-                } else {
-                    qDebug() << "查询失败：" << sqlQuery3.lastError();
-                }
-            } else {
-                qDebug() << "准备查询失败：" << sqlQuery3.lastError();
-            }
-
-            //#######    term4
-            QStringList results4 = course_class4.split(','); // 使用逗号作为分隔符
-            // 准备查询语句
-            QString queryPattern4 = "SELECT * FROM courses WHERE course_name IN (%1)";
-            QStringList placeholders4;
-            for (int i = 0; i < results4.size(); ++i) {
-                placeholders4 << QString(":%1").arg(i);
-            }
-            QString query4 = queryPattern4.arg(placeholders4.join(","));
-            // 创建查询和执行
-            QSqlQuery sqlQuery4;
-            if (sqlQuery4.prepare(query4)) {
-                for (int i = 0; i < results4.size(); ++i) {
-                    sqlQuery4.bindValue(QString(":%1").arg(i), results4[i]);
-                }
-                if (sqlQuery4.exec()) {
-                    addCoursesToTable(resultDialog->course_class4,sqlQuery4);
-                } else {
-                    qDebug() << "查询失败：" << sqlQuery4.lastError();
-                }
-            } else {
-                qDebug() << "准备查询失败：" << sqlQuery4.lastError();
-            }
-
-
-            //#######    term5
-            QStringList results5 = course_class5.split(','); // 使用逗号作为分隔符
-            // 准备查询语句
-            QString queryPattern5 = "SELECT * FROM courses WHERE course_name IN (%1)";
-            QStringList placeholders5;
-            for (int i = 0; i < results5.size(); ++i) {
-                placeholders5 << QString(":%1").arg(i);
-            }
-            QString query5 = queryPattern5.arg(placeholders5.join(","));
-            // 创建查询和执行
-            QSqlQuery sqlQuery5;
-            if (sqlQuery5.prepare(query5)) {
-                for (int i = 0; i < results5.size(); ++i) {
-                    sqlQuery5.bindValue(QString(":%1").arg(i), results5[i]);
-                }
-                if (sqlQuery5.exec()) {
-                    addCoursesToTable(resultDialog->course_class5,sqlQuery5);
-                } else {
-                    qDebug() << "查询失败：" << sqlQuery5.lastError();
-                }
-            } else {
-                qDebug() << "准备查询失败：" << sqlQuery5.lastError();
-            }
-
-            //#######    term6
-            QStringList results6 = course_class6.split(','); // 使用逗号作为分隔符
-            // 准备查询语句
-            QString queryPattern6 = "SELECT * FROM courses WHERE course_name IN (%1)";
-            QStringList placeholders6;
-            for (int i = 0; i < results6.size(); ++i) {
-                placeholders6 << QString(":%1").arg(i);
-            }
-            QString query6 = queryPattern6.arg(placeholders6.join(","));
-            // 创建查询和执行
-            QSqlQuery sqlQuery6;
-            if (sqlQuery6.prepare(query6)) {
-                for (int i = 0; i < results6.size(); ++i) {
-                    sqlQuery6.bindValue(QString(":%1").arg(i), results6[i]);
-                }
-                if (sqlQuery6.exec()) {
-                    addCoursesToTable(resultDialog->course_class6,sqlQuery6);
-                } else {
-                    qDebug() << "查询失败：" << sqlQuery6.lastError();
-                }
-            } else {
-                qDebug() << "准备查询失败：" << sqlQuery6.lastError();
-            }
-
-
-            //#######    term7
-            QStringList results7 = course_class7.split(','); // 使用逗号作为分隔符
-            // 准备查询语句
-            QString queryPattern7 = "SELECT * FROM courses WHERE course_name IN (%1)";
-            QStringList placeholders7;
-            for (int i = 0; i < results7.size(); ++i) {
-                placeholders7 << QString(":%1").arg(i);
-            }
-            QString query7 = queryPattern7.arg(placeholders7.join(","));
-            // 创建查询和执行
-            QSqlQuery sqlQuery7;
-            if (sqlQuery7.prepare(query7)) {
-                for (int i = 0; i < results7.size(); ++i) {
-                    sqlQuery7.bindValue(QString(":%1").arg(i), results7[i]);
-                }
-                if (sqlQuery7.exec()) {
-                    addCoursesToTable(resultDialog->course_class7,sqlQuery7);
-                } else {
-                    qDebug() << "查询失败：" << sqlQuery7.lastError();
-                }
-            } else {
-                qDebug() << "准备查询失败：" << sqlQuery7.lastError();
-            }
-
-            //#######    term8
-            QStringList results8 = course_class8.split(','); // 使用逗号作为分隔符
-            // 准备查询语句
-            QString queryPattern8 = "SELECT * FROM courses WHERE course_name IN (%1)";
-            QStringList placeholders8;
-            for (int i = 0; i < results8.size(); ++i) {
-                placeholders8 << QString(":%1").arg(i);
-            }
-            QString query8 = queryPattern8.arg(placeholders8.join(","));
-            // 创建查询和执行
-            QSqlQuery sqlQuery8;
-            if (sqlQuery8.prepare(query8)) {
-                for (int i = 0; i < results8.size(); ++i) {
-                    sqlQuery8.bindValue(QString(":%1").arg(i), results8[i]);
-                }
-                if (sqlQuery8.exec()) {
-                    addCoursesToTable(resultDialog->course_class8,sqlQuery8);
-                } else {
-                    qDebug() << "查询失败：" << sqlQuery8.lastError();
-                }
-            } else {
-                qDebug() << "准备查询失败：" << sqlQuery8.lastError();
-            }
-
+            //将名字和学生学号放入相应的框里
             resultDialog->nametextBrowser->setText(name);
             resultDialog->IDtextBrowser->setText(studentID);
         }
+        else {
+            // 如果没有查询结果，则显示一个消息框提醒“未查询到该学生”
+            QMessageBox::information(this, "查询结果", "未查询到该学生");
+        }
     }
-
-
 
     else {
         QMessageBox::critical(this, "错误", "查询失败: " + query.lastError().text());
@@ -314,7 +210,7 @@ void Widget::on_queryButton_clicked()
 
     // 关闭数据库连接
     //database.close();
-    //不关闭数据库，保证退出后能再次输入学号进行查询
+    //不关闭数据库，退出后能再次输入学号进行查询
 
 }
 

@@ -1,12 +1,11 @@
 #include "queryresult.h"
 #include "ui_queryresult.h"
-
+#include "mainwindow.h"
 
 QueryResult::QueryResult(const QString &studentID, QWidget *parent)
     : QWidget(parent), studentID(studentID), ui(new Ui::QueryResult)
 {
     ui->setupUi(this);
-    //loadStudentData();
 
     //设置tabWidget页面名字
     ui->tabWidget->setTabText(0,"第一学期");
@@ -50,13 +49,8 @@ QueryResult::~QueryResult()
 
 void QueryResult::on_quitButton_clicked()
 {
+
     this->close();
+    NewW=new MainWindow();
+    NewW->show();
 }
-
-
-/*数据库  加载学生选课数据
-void QueryResult::loadStudentData()
-{
-
-}
-*/

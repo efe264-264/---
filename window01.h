@@ -12,7 +12,7 @@
 #include<QVariantList>
 #include<QtSql/QSqlRecord>
 #include "graph.h"
-
+#include "window02.h"
 extern int choice_num;
 extern VexNode result1[100];
 extern VexNode result2[100];
@@ -34,6 +34,7 @@ public:
 private:
     Ui::Window01 *ui;
     QSqlDatabase db;
+    Window02 *s;
 
 };
 

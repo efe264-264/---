@@ -11,7 +11,7 @@
 #include<QtSql/QSqlQuery>
 #include<QVariantList>
 #include<QtSql/QSqlRecord>
-
+#include <QTableWidget>
 namespace Ui {
 class Window03;
 }
@@ -21,12 +21,13 @@ class Window03 : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit Window03(QWidget *parent = 0);
+    explicit Window03(QWidget *parent = 0/*,QSqlDatabase *DB=NULL*/);
     ~Window03();
+
 
 private:
     Ui::Window03 *ui;
-    QSqlDatabase db;
+   QSqlDatabase db;
 };
 
 #endif // WINDOW03_H

@@ -1,0 +1,11 @@
+debug/graph.o
+debug/main.o
+debug/manager.o
+debug/operation.o
+debug/student.o
+debug/window01.o
+debug/window02.o
+debug/window03.o
+debug/moc_window01.o
+debug/moc_window02.o
+debug/moc_window03.o

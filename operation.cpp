@@ -1,5 +1,6 @@
 #include"operation.h"
 #include"graph.h"
+#include "qdebug.h"
 
 extern VexNode result1[100];
 extern VexNode result2[100];
@@ -7,8 +8,9 @@ extern VexNode result3[100];
 extern VexNode result4[100];
 extern Class_arrange_Graph G;
 
-//extern int ID;
-
+extern int ID;
+extern bool top_fail;//拓扑排序失败
+extern bool arrange_fail;//课程安排失败
 
 void op::Top_Sort(VexNode* result, int choice, course_manager* m)//进行四次不同的拓扑排序
 {
@@ -127,31 +129,49 @@ void op::Top_Sort(VexNode* result, int choice, course_manager* m)//进行四次�
 
     if (i < g->VexNum)
     {
-        cout << "拓扑排序失败，课程先修关系可能存在环路，请按任意键回主菜单\n";
-        getchar();
-        system("cls");
+        top_fail=true;//拓扑排序失败
+        //qDebug() << "拓扑排序失败，课程先修关系可能存在环路，请按任意键回主菜单\n";
+        //getchar();
+        //system("cls");
         /*mainmenu();*/
     }
-
-    for (i = 0; i < g->VexNum; i++)
+    //qDebug()<<"size"<<S.size();
+    else
     {
-        if (S.empty() == false)
+        for (i = 0; i < g->VexNum; i++)
         {
-            result[i] = S.front();
-            S.pop();
-        }
-        else
-        {
-            cout << "拓扑排序弹栈失败,请按任意键回主菜单" << endl;
-            getchar();
-            /*mainmenu();*/
-        }
+            if (S.empty() == false)
+            {
+                result[i] = S.front();
+                //qDebug()<<S.size();
+                S.pop();
+            }
+            else
+            {
+                top_fail=true;//拓扑排序失败
+                //qDebug()<< "拓扑排序弹栈失败,请按任意键回主菜单" ;
+                //getchar();
+                /*mainmenu();*/
+            }
 
+        }
     }
 }
 
 void op::Arrange(VexNode* result, int choice, course_manager*m)//要在录入课程课头信息前将原信息清空
 {
+    bool af=false;
+    /*student stu0;
+    QString s=QString(" where student_id=%1") .arg(ID);//和登录合
+    m->get_student(stu0,s);
+
+    for(int k=0;k<8;k++)
+    {
+        stu0.course_class[k] = "";
+        stu0.term_class[k]="";
+        m->update_student(stu0,k+1);
+    }*/
+
     int i = 0, j, k, course_num, per_max_num, Sumcredit, tag;
 
     if (choice == 0)
@@ -165,76 +185,134 @@ void op::Arrange(VexNode* result, int choice, course_manager*m)//要在录入课
             per_max_num = (G.VexNum / G.mes->term_num + 1);
     }
 
-    VexNode* this_term_courses = new VexNode[G.VexNum];
-    AdjVexNode* p;
-    for (k = 0; k < G.VexNum; k++)
+    int count=0;
+    while(true)
     {
-        if (i == G.VexNum)	break;//使k记录最大学期数
+        student stu0;
+        QString s=QString(" where student_id=%1") .arg(ID);//和登录合
+        m->get_student(stu0,s);
 
-        /*cout << "第" << k + 1 << "个学期的课程为：";*/
-
-        Sumcredit = 0;       //本学期安排课程的总学分
-        course_num = 0;	 //本学期安排课程的总数
-        p = result[i].FirstArc_pre;  //先修课指针
-        tag = 0;          //标志本学期是否有该课程的先修课程
-        while (Sumcredit + result[i].credit <= G.mes->max_credit && tag == 0 && course_num < per_max_num)
+        for(int k=0;k<8;k++)
         {
-            while (p != nullptr && tag == 0)
+            stu0.course_class[k] = "";
+            stu0.term_class[k]="";
+            m->update_student(stu0,k+1);
+        }
+        VexNode* this_term_courses = new VexNode[G.VexNum];
+        AdjVexNode* p;
+        for (k = 0; k < G.VexNum; k++)
+        {
+            if (i == G.VexNum)	break;//使k记录最大学期数
+            if (k >= G.mes->term_num)
             {
-                for (j = 0; j < course_num; j++)
-                {
-                    if (p->AdjVex == this_term_courses[j].num)
-                    {
-                        tag = 1;
-                        break;
-                    }
-                }
-                p = p->Next;
+                af=true;//课程安排失败
+                break;
+
+                //	cout << "\n\n\n该课程安排先后顺序下，此策略无解,因为安排所需学期数超过最大学期数\n\n\n";
+                //	cout << "请按任意键回主菜单" << endl;
+                //	getchar();
+                //	system("cls");
+                //	/*mainmenu();*/
             }
 
-            if (tag == 1) break;//如果本学期有该课程的先修课程，则该课程无法在本学期开课
+            /*cout << "第" << k + 1 << "个学期的课程为：";*/
 
-            if (i == G.VexNum)	break;
+            Sumcredit = 0;       //本学期安排课程的总学分
+            course_num = 0;	 //本学期安排课程的总数
+            p = result[i].FirstArc_pre;  //先修课指针
+            tag = 0;          //标志本学期是否有该课程的先修课程
+            while (Sumcredit + result[i].credit <= G.mes->max_credit && tag == 0 && course_num < per_max_num)
+            {
+                while (p != nullptr && tag == 0)
+                {
+                    for (j = 0; j < course_num; j++)
+                    {
+                        if (p->AdjVex == this_term_courses[j].num)
+                        {
+                            tag = 1;
+                            break;
+                        }
+                    }
+                    p = p->Next;
+                }
 
-            //cout << result[i].data << endl;
+                if (tag == 1) break;//如果本学期有该课程的先修课程，则该课程无法在本学期开课
 
-            /*QString key=pick(result, i,m);*/
-            const QString s = " where student_id=3";
-            course cs;
-            char con[1024];
-            sprintf_s(con, " where course_id=%d", result[i].num);
-            m->get_a_course(cs, con);
-            //cs.allowance[cs.choice.toInt()-1]--;
-            //m->update_course(cs);
+                if (i == G.VexNum)	break;
 
-            student stu;
-            //char s[1024];
-            //sprintf_s(s," where student_id=%d",ID);
-            m->get_student(stu,s);
+                    //cout << result[i].data << endl;
 
-            if (stu.course_class[k] == "n") stu.course_class[k] = "";
-            stu.course_class[k] = result[i].data + cs.choice +','+stu.course_class[k];
-            m->update_student(stu,k+1);
+                /*QString key=pick(result, i,m);*/
+            // const QString s = " where student_id=%1",ID;//和登录合
+                course cs;
+                QString con=QString(" where course_id=%1") .arg(result[i].num+1);
+                 m->get_a_course(cs, con);
+                //cs.allowance[cs.choice.toInt()-1]--;
+                //m->update_course(cs);
 
-            Sumcredit += result[i].credit;
-            this_term_courses[course_num] = result[i];
-            /*if (i == G.VexNum)	break;*/
-            i++;
-            course_num++;
-            p = result[i].FirstArc_pre;
+                student stu;
+                QString s=QString(" where student_id=%1") .arg(ID);//和登录合
+                m->get_student(stu,s);
+
+                //if (stu.course_class[k] == "n") stu.course_class[k] = "";
+                 //if (stu.term_class[k] == "n") stu.term_class[k] = "";
+                stu.course_class[k] = result[i].data +','+stu.course_class[k];
+                stu.term_class[k]=cs.choice+','+stu.term_class[k];
+                m->update_student(stu,k+1);
+
+                Sumcredit += result[i].credit;
+                this_term_courses[course_num] = result[i];
+                /*if (i == G.VexNum)	break;*/
+                i++;
+                course_num++;
+                p = result[i].FirstArc_pre;
+            }
         }
-
+        if(!af)
+        {
+            break;
+        }
+        else
+        {
+            if(choice==0) break;
+            per_max_num++;
+            count++;
+            i=0;
+            af=false;
+            if(count==2)
+            {
+                af=true;
+                break;
+            }
+        }
     }
 
-    //if (k > G.mes->term_num)
-    //{
+    if(af)
+    {
+        student stu0;
+        QString s=QString(" where student_id=%1") .arg(ID);//和登录合
+        m->get_student(stu0,s);
+
+        for(int k=0;k<8;k++)
+        {
+            stu0.course_class[k] = "";
+            stu0.term_class[k]="";
+            m->update_student(stu0,k+1);
+        }
+    }
+
+    arrange_fail=af;
+
+    if (k > G.mes->term_num)
+    {
+        af=true;//课程安排失败
 
     //	cout << "\n\n\n该课程安排先后顺序下，此策略无解,因为安排所需学期数超过最大学期数\n\n\n";
     //	cout << "请按任意键回主菜单" << endl;
     //	getchar();
     //	system("cls");
     //	/*mainmenu();*/
-    //}
+    }
 
     //cout << "\n\n\n 课程安排信息已经存入当前目录下，“各学期课程安排结果.txt” \n\n请按任意键回主菜单";
     //getchar();
@@ -332,5 +410,10 @@ void op::print_course_class(int id, course_manager* m, vector<QString>& v)
         cout << i + 1 << " " << cs.course_class[i] << endl;
         v.push_back(cs.course_class[i]);
     }*/
+}
+
+void op::bk()
+{
+    qDebug()<<"here";
 }
 

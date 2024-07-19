@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>QueryResult</class>
+ <widget class="QWidget" name="QueryResult">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>671</width>
+    <height>511</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QLabel" name="namelabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>90</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;姓名：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="IDlabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>130</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;学号：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="courselabel">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>170</y>
+     <width>41</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt;&quot;&gt;课程：&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="quitButton">
+   <property name="geometry">
+    <rect>
+     <x>600</x>
+     <y>430</y>
+     <width>51</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>退出</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>170</x>
+     <y>10</y>
+     <width>341</width>
+     <height>61</height>
+    </rect>
+   </property>
+   <property name="html">
+    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;meta charset=&quot;utf-8&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+hr { height: 1px; border-width: 0; }
+li.unchecked::marker { content: &quot;\2610&quot;; }
+li.checked::marker { content: &quot;\2612&quot;; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Microsoft YaHei UI'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:36pt; font-weight:700;&quot;&gt;学生选课情况&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="nametextBrowser">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>80</y>
+     <width>251</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="IDtextBrowser">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>120</y>
+     <width>251</width>
+     <height>31</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QTabWidget" name="tabWidget">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>160</y>
+     <width>581</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;第一学期&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+   <property name="currentIndex">
+    <number>0</number>
+   </property>
+   <widget class="QWidget" name="term1">
+    <attribute name="title">
+     <string>第一学期</string>
+    </attribute>
+    <widget class="QTableWidget" name="course_class1">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>581</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>课程编号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课程名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课头</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="term2">
+    <attribute name="title">
+     <string>第二学期</string>
+    </attribute>
+    <widget class="QTableWidget" name="course_class2">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>581</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>课程编号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课程名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课头</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="term3">
+    <attribute name="title">
+     <string>第三学期</string>
+    </attribute>
+    <widget class="QTableWidget" name="course_class3">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>581</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>课程编号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课程名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课头</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="term4">
+    <attribute name="title">
+     <string>第四学期</string>
+    </attribute>
+    <widget class="QTableWidget" name="course_class4">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>581</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>课程编号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课程名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课头</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="term5">
+    <attribute name="title">
+     <string>第五学期</string>
+    </attribute>
+    <widget class="QTableWidget" name="course_class5">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>581</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>课程编号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课程名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课头</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="term6">
+    <attribute name="title">
+     <string>第六学期</string>
+    </attribute>
+    <widget class="QTableWidget" name="course_class6">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>581</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>课程编号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课程名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课头</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="term7">
+    <attribute name="title">
+     <string>第七学期</string>
+    </attribute>
+    <widget class="QTableWidget" name="course_class7">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>581</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>课程编号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课程名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课头</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="term8">
+    <attribute name="title">
+     <string>第八学期</string>
+    </attribute>
+    <widget class="QTableWidget" name="course_class8">
+     <property name="geometry">
+      <rect>
+       <x>0</x>
+       <y>0</y>
+       <width>581</width>
+       <height>231</height>
+      </rect>
+     </property>
+     <column>
+      <property name="text">
+       <string>课程编号</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课程名称</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>学分</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string>课头</string>
+      </property>
+     </column>
+    </widget>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>691</width>
+     <height>521</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="res.qrc">:/image/image/login.jpg</pixmap>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
+   </property>
+  </widget>
+  <zorder>label</zorder>
+  <zorder>textBrowser</zorder>
+  <zorder>nametextBrowser</zorder>
+  <zorder>IDtextBrowser</zorder>
+  <zorder>namelabel</zorder>
+  <zorder>IDlabel</zorder>
+  <zorder>courselabel</zorder>
+  <zorder>tabWidget</zorder>
+  <zorder>quitButton</zorder>
+ </widget>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
+ <connections/>
+</ui>

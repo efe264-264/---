@@ -6,7 +6,8 @@
 #include <QDialog>
 #include <QTabWidget>
 #include <QTableWidget>
-
+class Widget;
+class MainWindow;
 namespace Ui {
 class QueryResult;
 }
@@ -19,6 +20,7 @@ public:
     QueryResult(const QString &studentID,QWidget *parent=nullptr);
     //explicit QueryResult(QWidget *parent = nullptr);
     ~QueryResult();
+
     QTextBrowser *nametextBrowser;
     QTextBrowser *IDtextBrowser;
     //  term1~8
@@ -31,6 +33,7 @@ public:
     QTableWidget *course_class7;
     QTableWidget *course_class8;
 
+
 private slots:
     void on_quitButton_clicked();
 
@@ -38,6 +41,8 @@ private slots:
 private:
     QString studentID;    //在 Ui::QueryResult *ui  之前声明
     Ui::QueryResult *ui;
+
+    MainWindow * NewW;
 };
 
 #endif // QUERYRESULT_H

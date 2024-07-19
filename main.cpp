@@ -71,6 +71,10 @@ int main()
 
     return 0;
 }*/
+int ID;
+bool Stu=false;
+bool top_fail=false;//拓扑排序失败
+bool arrange_fail=false;//课程安排失败
 
 #include "window01.h"
 #include "window02.h"
@@ -79,7 +83,9 @@ int main()
 #include"manager.h"
 #include"graph.h"
 #include"operation.h"
-
+#include"widget.h"
+#include"LogWindow.h"
+#include"mainwindow.h"
 //用来存四个拓扑排序的数据
 int choice_num;
 VexNode result1[100];
@@ -88,44 +94,84 @@ VexNode result3[100];
 VexNode result4[100];
 VexNode result[4][100];
 Class_arrange_Graph G;
+QString databaseName="wrongtest";//lp *test_1 *wrongtest
 
 
 int main(int argc, char *argv[])
-{
+{   QSqlDatabase  db=QSqlDatabase::addDatabase("QMYSQL");
+    db.setDatabaseName(databaseName);
+    db.setHostName("localhost");
+    db.setUserName("root");
+    db.setPassword("123456");
+    if(!db.open())
+    {
+        qDebug()<<"Error: Connection with database failed: "<<db.lastError().text();
+
+    }
+  //  QSqlQuery query1(db);
+   // QString sql1 = QString("DELETE FROM %1;").arg("topresult");
+  //  query1.exec(sql1);
     //完成拓扑排序和拓扑排序结果放到数据库里的操作，第一个界面完成展示
     Message msg;
     G.mes = &msg;
+    db.close();
 
     op oper;
-    course_manager m;
-
-    //把数据库的course传到cslist中
-    vector<course>cslist=m.get_course("");
-    G.read(cslist);
-
-    //四个拓扑排序先存到四个全局变量数组中
-    oper.Top_Sort(result1,0,&m);
-    oper.Top_Sort(result2,1,&m);
-    oper.Top_Sort(result3,2,&m);
-    oper.Top_Sort(result4,3,&m);
-    for(int j=0;j<100;j++)
     {
-        result[0][j]=result1[j];
-        result[1][j]=result2[j];
-        result[2][j]=result3[j];
-        result[3][j]=result4[j];
+        course_manager m;
+
+        //把数据库的course传到cslist中
+        vector<course>cslist=m.get_course("");
+        G.read(cslist);
+
+
+        //四个拓扑排序先存到四个全局变量数组中
+        oper.Top_Sort(result1,0,&m);
+        oper.Top_Sort(result2,1,&m);
+        oper.Top_Sort(result3,2,&m);
+        oper.Top_Sort(result4,3,&m);
+        for(int j=0;j<100;j++)
+        {
+            result[0][j]=result1[j];
+            result[1][j]=result2[j];
+            result[2][j]=result3[j];
+            result[3][j]=result4[j];
+        }
     }
     //构造完四个数组之后，把四个数组的数据传到topresult数据库里
-    QSqlQuery query;
-    for(int i=0;i<100;i++)
+    //连接数据库
+    for(int i=0;i<40;i++)
+    qDebug()<<"result1"<<result[0][i].data;
+    db=QSqlDatabase::addDatabase("QMYSQL");
+    db.setDatabaseName(databaseName);
+    db.setHostName("localhost");
+    db.setUserName("root");
+    db.setPassword("123456");
+    if(!db.open())
     {
-        query.exec("insert into topresult('result1','result2','result3',result4') value('result1[i]','reault2[i]','result3[i]','result4[i]')");
+        qDebug()<<"Error: Connection with database failed: "<<db.lastError().text();
+
     }
+    QSqlQuery query(db);
+    for(int i=0;i<40;i++)
+    {
+        QString sql = QString("UPDATE `topresult` SET `result1`='%1', `result2`='%2', `result3`='%3', `result4`='%4' WHERE `index`=%5")
+                          .arg(result[0][i].data)
+                          .arg(result[1][i].data)
+                          .arg(result[2][i].data)
+                          .arg(result[3][i].data)
+                          .arg(i + 1);
+        query.exec(sql);
+    }
+    db.close();
     //至此完成拓扑排序的四种情况的排序，以及将结果放到数据库中，
     QApplication a(argc, argv);
-    Window01 w;
-    w.show();
+    MainWindow mainw;
+    mainw.show();
+
+
 
     return a.exec();
+    /*return 0;*/
 }
 

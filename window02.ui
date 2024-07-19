@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>800</width>
-    <height>600</height>
+    <width>667</width>
+    <height>512</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,421 +20,127 @@
       <property name="selectionBehavior">
        <enum>QAbstractItemView::SelectRows</enum>
       </property>
-      <row>
-       <property name="text">
-        <string>36</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>37</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>38</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>39</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>40</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>41</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>42</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>43</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>44</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>45</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>46</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>47</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>48</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>49</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>50</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>51</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>52</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>53</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>54</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>55</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>8</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>57</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>58</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>59</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>60</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>61</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>62</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>64</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>65</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>66</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>67</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>68</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>69</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>70</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>78</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>73</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>74</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>75</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>76</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>77</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>78</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>79</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>80</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>81</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>82</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>83</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>84</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>85</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>86</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>87</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>88</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>89</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>90</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>91</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>92</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>93</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>94</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>95</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>96</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>97</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>98</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>99</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>100</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>101</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>102</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>103</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>104</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>105</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>106</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>107</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>108</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>109</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>11</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>111</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>112</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>113</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>114</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>115</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>116</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>117</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>118</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>119</string>
-       </property>
-      </row>
-      <row>
-       <property name="text">
-        <string>120</string>
-       </property>
-      </row>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
+      <row/>
       <row/>
       <row/>
       <row/>
@@ -517,7 +223,7 @@
     <item>
      <widget class="QPushButton" name="pushButton_2">
       <property name="text">
-       <string>详情</string>
+       <string>查看结果</string>
       </property>
      </widget>
     </item>

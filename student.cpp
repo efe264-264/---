@@ -17,6 +17,7 @@ student& student::operator=(student stu)
     for (int i = 0; i < 8; i++)
     {
         this->course_class[i] = stu.course_class[i];
+        this->term_class[i]=stu.term_class[i];
     }
     return *this;
 }

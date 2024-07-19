@@ -23,6 +23,7 @@ struct op//需要的操作
     /*QString pick(VexNode* result, int i, course_manager* m);*/
     void print_course_class(int id, course_manager* m, vector<QString>& v);
     //int trans(QString d);
+    void bk();
 
 };
 
